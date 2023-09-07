@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test sur le muscle sartorius</title>
+    <style>
+        .question {
+            margin-bottom: 20px;
+        }
+        .correct {
+            color: green;
+            border: 2px solid green;
+            padding: 5px;
+        }
+        .incorrect {
+            color: red;
+            border: 2px solid darkred;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test sur le muscle sartorius</h1>
+
+    <div class="question">
+        <h2>Question 1:</h2>
+        <p>Quelle est son origine ?</p>
+        <input type="radio" name="q1" value="false">A) EIAI
+        <input type="radio" name="q1" value="true">B) EIAS
+        <input type="radio" name="q1" value="false">C) Grande tubérosité ischiatique
+        <input type="radio" name="q1" value="false">D) Patella
+    </div>
+
+    <div class="question">
+        <h2>Question 2:</h2>
+        <p>Quelles sont ses actions au niveau du bassin ?</p>
+        <input type="radio" name="q2" value="false">A) Rétroversion
+        <input type="radio" name="q2" value="true">B) Antéversion
+        <input type="radio" name="q2" value="false">C) Les 2 
+        <input type="radio" name="q2" value="false">D) Aucun des 2
+    </div>
+
+    <div class="question">
+        <h2>Question 3:</h2>
+        <p>Quelles sont ses actions au niveau de la hanche ?</p>
+        <input type="radio" name="q3" value="true">A) Flexion + abduction + rotation latérale
+        <input type="radio" name="q3" value="false">B) Flexion + adduction + rotation latérale
+    </div>
+
+    <div class="question">
+        <h2>Question 4:</h2>
+        <p>Terminaison ?</p>
+        <input type="radio" name="q4" value="true">A) Patte d'oie, en avant des gracile et semi-tendineux
+        <input type="radio" name="q4" value="false">B) Patte d'oie, en arrière des gracile et semi-tendineux
+        <input type="radio" name="q4" value="false">C) face postérieure de la tubérosité médiale du tibia
+        <input type="radio" name="q4" value="false">D) Trifurcation moyenne de la ligne âpre
+    </div>
+
+    <button id="calculate">J'ai fini !</button>
+
+    <div id="results">
+        <h2>Résultats:</h2>
+        <p>Votre score : <span id="score"></span></p>
+        <div id="corrections"></div>
+    </div>
+
+    <script>
+    const questions = [
+        { question: "q1", answer: "true" },
+        { question: "q2", answer: "true" },
+        { question: "q3", answer: "true" },
+        { question: "q4", answer: "true" }
+    ];
+
+    const answers = {
+        q1: "B) EIAS",
+        q2: "B) Antéversion",
+        q3: "A) Flexion + abduction + rotation latérale",
+        q4: "A) Patte d'oie, en avant des gracile et semi-tendineux"
+    };
+
+    document.getElementById("calculate").addEventListener("click", function() {
+        let correctAnswers = 0;
+        const corrections = [];
+
+        questions.forEach(q => {
+            const selectedAnswer = document.querySelector(`input[name=${q.question}]:checked`);
+            if (selectedAnswer) {
+                if (selectedAnswer.value === q.answer) {
+                    correctAnswers++;
+                    selectedAnswer.parentElement.classList.add("correct");
+                    const questionHeader = selectedAnswer.closest(".question").querySelector("h2");
+                    questionHeader.innerHTML += " (VRAI)";
+                } else {
+                    const questionDiv = selectedAnswer.closest(".question");
+                    questionDiv.classList.add("incorrect");
+                    const questionHeader = questionDiv.querySelector("h2");
+                    questionHeader.innerHTML += ` (La réponse correcte était : ${answers[q.question]})`;
+                }
+            }
+        });
+
+        const score = (correctAnswers / questions.length) * 100;
+        document.getElementById("score").textContent = `${score}%`;
+
+        const correctionsContainer = document.getElementById("corrections");
+        correctionsContainer.innerHTML = corrections.join("");
+    });
+    </script>
+</body>
+</html>
